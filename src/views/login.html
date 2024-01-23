@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+	<!-- Main Content -->
+	<div class="container-fluid">
+		<div class="row main-content text-center">
+			<div class="col-md-4 text-center company__info">
+				<span class="company__logo"><h2><span class="fa fa-android"></span></h2></span>
+				<h4 class="company_title"><img src="/imgs/logoSoma.png"></h4>
+			</div>
+			<div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+				<div class="container-fluid">
+					<div class="row justify-content-center mt-1">
+						<h2>Login</h2>
+					</div>
+					<div class="row justify-content-center ml-1">
+						<form control="" class="form-group">
+							<div class="row">
+								<input type="text" name="username" id="username" class="form__input" placeholder="Usuario" autocomplete="off" max="40">
+							</div>
+							<div class="row">
+								<input type="password" name="password" id="password" class="form__input" placeholder="Senha" max="20">
+							</div>
+							<div class="row">
+								<input type="button" value="Acessar" class="btn" onclick="Logar()">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<!--<script src="../app.js"></script>-->
+<script>
+	function Logar(){
+    const url = "/login";
+    var usuario = document.getElementById("username").value;
+    var senha = document.getElementById("password").value; 
+
+	var body = JSON.stringify({
+        usuario:usuario,
+         senha:senha
+     })
+
+    enviaPost(url, body); 
+        
+} 
+
+function enviaPost(url, body){
+    console.log("JSON: " + body)
+	let request = new XMLHttpRequest();
+	request.open("POST", url, true)
+	request.setRequestHeader("Content-type", "application/json")
+	request.send(body);
+
+	request.onload = () => {
+		console.log(this.responseText)
+	}
+
+	return request.responseText
+}
+</script>
+</html>
