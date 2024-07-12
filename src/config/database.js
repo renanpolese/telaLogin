@@ -4,7 +4,7 @@ const firebird = require('node-firebird');
  
     host: '127.0.0.1',
     port: 3050,
-    database: 'C:\\Users\\SUPORTE PC04\\Desktop\\pasta\\SISTEMASOMA.FDB',
+    database: 'C:\\Soma\\SISTEMASOMA.FDB',
     user: 'sysdba',
     password: 'masterkey',
     lowercase_keys: false, // set to true to lowercase keys

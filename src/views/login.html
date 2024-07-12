@@ -40,32 +40,44 @@
 </body>
 <!--<script src="../app.js"></script>-->
 <script>
-	function Logar(){
-    const url = "/login";
+
+async function Logar(){
+    const url = "http://127.0.0.1:4000/users/auth";
     var usuario = document.getElementById("username").value;
     var senha = document.getElementById("password").value; 
 
-	var body = JSON.stringify({
-        usuario:usuario,
-         senha:senha
-     })
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ usuario, senha })
+        });
 
-    enviaPost(url, body); 
-        
-} 
+        if (!response.ok) {
+            throw new Error('Não foi possível fazer login');
+        }
 
-function enviaPost(url, body){
-    console.log("JSON: " + body)
-	let request = new XMLHttpRequest();
-	request.open("POST", url, true)
-	request.setRequestHeader("Content-type", "application/json")
-	request.send(body);
+        const data = await response.json();
 
-	request.onload = () => {
-		console.log(this.responseText)
-	}
+        const accessToken = data.token;
 
-	return request.responseText
+        // Salva token no localstorage
+        localStorage.setItem('accessToken', accessToken);
+
+		//Redireciona para home
+		const token = localStorage.getItem('accessToken');
+
+		var oReq = new XMLHttpRequest();
+
+		oReq.open('GET', 'http://localhost:4000/home');
+		oReq.setRequestHeader('x-access-token', token);
+		oReq.send();
+
+		}catch (error) {
+			console.error('Erro ao fazer login:', error);
+		}
 }
 </script>
 </html>

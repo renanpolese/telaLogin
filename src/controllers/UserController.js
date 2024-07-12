@@ -27,17 +27,17 @@ function listUsers(req,res){
  function postUsers(req, res) {
          firebird.attach(dbOptions, function(err, db) {
 
-             const comando = 'INSERT INTO USUARIOS (NOME, SENHA, EMAIL) VALUES (?,?,?)'
+             const comando = 'INSERT INTO USUARIOS (NOME, LOGIN, SENHA, TIPOUSUARIO, EMAIL) VALUES (?,?,?,?,?)'
 
-            db.query(comando, [req.body.nome, req.body.senha, req.body.email], function(err, result){
+            db.query(comando, [req.body.nome, req.body.login, req.body.senha, req.body.tipoUsuario, req.body.email], function(err, result){
 
                 db.detach();
 
                 if (err){
-                    return res.status(400).json({error: 'Erro ao executar query', details: err });
+                    return res.status(400).json({error: 'Erro ao criar usuario', details: err });
                 }
                 else {
-                    return res.status(201).json({message: 'Usuário inserido com sucesso!', userId: result});
+                    return res.status(201).json({message: 'Usuario inserido com sucesso!', userId: result});
                 }
             })
                      
@@ -56,7 +56,7 @@ function listUsers(req,res){
     function deleteUser(req, res){
         firebird.attach(dbOptions, function(err, db){
             let id = req.params.id;
-            const apagar = `DELETE FROM USUARIOS WHERE ID = ${id}`
+            const apagar = `DELETE FROM USUARIOS WHERE CODUSUARIO = ${id}`
 
             db.query(apagar, function(err, result){
                 if (err){

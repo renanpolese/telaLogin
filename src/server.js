@@ -3,7 +3,7 @@ const cors = require('cors');
 const path = require('path');
 //const firebird = require("node-firebird");
 const Router = require("./routes/rotas.js");
-const verificaAutenticacao = require('./middleware/verificaAuth.js');
+const authController = require('./controllers/AuthController.js');
 const cookieParser = require('cookie-parser');
 
 
@@ -23,9 +23,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
 
-//Midleware de rotas privadas (não está privada ainda)
-app.get("/home", verificaAutenticacao, (req, res) => {
+//app.use("*", verificaAutenticacao);
+
+app.get("/home", authController.verificaToken, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'home.html'));
+    console.log("Usuario ID " + req.userId + " conectou-se")  
 });
 
 
